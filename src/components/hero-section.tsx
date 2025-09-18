@@ -94,7 +94,7 @@ export function HeroSection() {
                 <img
                   src={sohanPortrait}
                   alt="Sohan - Front-End Developer"
-                  className="w-full max-w-sm mx-auto object-contain rounded-2xl"
+                  className="w-full max-w-sm mx-auto object-cover object-bottom h-[500px] rounded-2xl"
                 />
               </div>
             </div>
@@ -106,7 +106,7 @@ export function HeroSection() {
               <img
                 src={sohanPortrait}
                 alt="Sohan - Front-End Developer"
-                className="w-full max-w-[220px] sm:max-w-[280px] mx-auto object-contain max-h-[36vh] sm:max-h-[46vh] rounded-2xl shadow-2xl"
+                className="w-full max-w-[220px] sm:max-w-[280px] mx-auto object-cover max-h-[34vh] sm:max-h-[44vh] rounded-2xl shadow-2xl"
               />
             </div>
             <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-xl"></div>
