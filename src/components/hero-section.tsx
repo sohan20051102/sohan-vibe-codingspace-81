@@ -84,7 +84,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Hero Image */}
+          {/* Hero Image - Desktop */}
           <div className="relative floating-animation lg:col-span-2 lg:order-2 hidden lg:block">
             <div className="relative z-10">
               <div className="absolute -top-12 -right-12 w-48 h-48 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
@@ -94,10 +94,23 @@ export function HeroSection() {
                 <img
                   src={sohanPortrait}
                   alt="Sohan - Front-End Developer"
-                  className="w-full max-w-md mx-auto object-contain rounded-2xl"
+                  className="w-full max-w-sm mx-auto object-contain rounded-2xl"
                 />
               </div>
             </div>
+          </div>
+
+          {/* Hero Image - Mobile */}
+          <div className="relative floating-animation lg:hidden">
+            <div className="relative z-10 mt-2">
+              <img
+                src={sohanPortrait}
+                alt="Sohan - Front-End Developer"
+                className="w-full max-w-[220px] sm:max-w-[280px] mx-auto object-contain max-h-[36vh] sm:max-h-[46vh] rounded-2xl shadow-2xl"
+              />
+            </div>
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-primary/20 rounded-full blur-xl"></div>
+            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-accent/20 rounded-full blur-xl"></div>
           </div>
         </div>
 
