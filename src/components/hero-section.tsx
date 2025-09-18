@@ -20,7 +20,7 @@ export function HeroSection() {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-hero-gradient opacity-5 pointer-events-none"></div>
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-6 md:py-12 lg:py-24 h-full">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="grid lg:grid-cols-2 gap-3 sm:gap-8 md:gap-12 items-center h-full">
           {/* Content */}
           <div className="space-y-3 sm:space-y-5 lg:space-y-7 bounce-in relative z-10">
