@@ -91,11 +91,13 @@ export function HeroSection() {
               <div className="absolute -bottom-12 -left-12 w-48 h-48 bg-accent/10 rounded-full blur-3xl animate-pulse delay-500"></div>
 
               <div className="relative bg-card/50 backdrop-blur-sm rounded-3xl p-2 shadow-2xl">
-                <img
-                  src={sohanPortrait}
-                  alt="Sohan - Front-End Developer"
-                  className="w-full max-w-sm mx-auto object-cover object-bottom h-[500px] rounded-2xl"
-                />
+                <div className="aspect-w-1 aspect-h-1">
+                  <img
+                    src={sohanPortrait}
+                    alt="Sohan - Front-End Developer"
+                    className="w-full h-full object-cover object-bottom rounded-2xl"
+                  />
+                </div>
               </div>
             </div>
           </div>
