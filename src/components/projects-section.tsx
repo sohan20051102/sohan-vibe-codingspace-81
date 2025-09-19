@@ -1,10 +1,9 @@
 import * as React from "react"
-import Autoplay from "embla-carousel-autoplay"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ExternalLink, Github } from "lucide-react"
+import { StackedCards, StackedCard } from "./stacked-cards";
 
 // Import project images
 import sohanUiUxImage from "@/assets/projects/sohan-uiux.png"
@@ -77,38 +76,39 @@ export function ProjectsSection() {
         </div>
 
         <div className="grid gap-8">
-          {/* Featured Projects Carousel */}
-          <Carousel
-            plugins={[Autoplay({ delay: 4000, stopOnInteraction: true })]}
-            className="w-full max-w-4xl mx-auto"
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-          >
-            <CarouselContent>
+          {/* Featured Projects Stacked Cards */}
+          <div className="w-full max-w-4xl mx-auto">
+            <StackedCards>
               {projects
-                .filter(project => project.featured)
+                .filter((project) => project.featured)
                 .map((project, index) => (
-                  <CarouselItem key={index}>
-                    <Card className="card-hover overflow-hidden group w-full">
-                      <div className="md:flex">
+                  <StackedCard key={index}>
+                    <Card className="card-hover overflow-hidden group w-full h-full">
+                      <div className="md:flex h-full">
                         <div className="md:w-1/2 relative overflow-hidden">
                           <img
                             src={project.image}
                             alt={project.title}
-                            className="w-full h-64 md:h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                             <div className="flex gap-4">
                               <Button size="sm" asChild>
-                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                                <a
+                                  href={project.liveUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
                                   <ExternalLink className="mr-2 h-4 w-4" />
                                   Live Demo
                                 </a>
                               </Button>
                               <Button variant="outline" size="sm" asChild>
-                                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                <a
+                                  href={project.githubUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
                                   <Github className="mr-2 h-4 w-4" />
                                   Code
                                 </a>
@@ -116,7 +116,7 @@ export function ProjectsSection() {
                             </div>
                           </div>
                         </div>
-                        <div className="md:w-1/2">
+                        <div className="md:w-1/2 flex flex-col justify-center">
                           <CardHeader>
                             <CardTitle className="flex items-center justify-between">
                               {project.title}
@@ -124,10 +124,16 @@ export function ProjectsSection() {
                             </CardTitle>
                           </CardHeader>
                           <CardContent>
-                            <p className="text-muted-foreground mb-4">{project.description}</p>
+                            <p className="text-muted-foreground mb-4">
+                              {project.description}
+                            </p>
                             <div className="flex flex-wrap gap-2">
                               {project.tags.map((tag) => (
-                                <Badge key={tag} variant="outline" className="tech-badge">
+                                <Badge
+                                  key={tag}
+                                  variant="outline"
+                                  className="tech-badge"
+                                >
                                   {tag}
                                 </Badge>
                               ))}
@@ -136,12 +142,10 @@ export function ProjectsSection() {
                         </div>
                       </div>
                     </Card>
-                  </CarouselItem>
+                  </StackedCard>
                 ))}
-            </CarouselContent>
-            <CarouselPrevious className="absolute left-[-50px] top-1/2 -translate-y-1/2 fill-white" />
-            <CarouselNext className="absolute right-[-50px] top-1/2 -translate-y-1/2 fill-white" />
-          </Carousel>
+            </StackedCards>
+          </div>
 
           {/* Other Projects Grid */}
           <div>
