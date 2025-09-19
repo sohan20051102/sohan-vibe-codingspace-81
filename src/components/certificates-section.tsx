@@ -1,5 +1,8 @@
+import * as React from "react"
+import AutoScroll from "embla-carousel-auto-scroll"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Award, Building, Users, Eye, Download } from "lucide-react"
@@ -88,105 +91,103 @@ export function CertificatesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-          {certificates.map((cert, index) => (
-            <Card key={cert.title} className="card-hover group">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-lg bg-${cert.color}/10 group-hover:bg-${cert.color}/20 transition-colors`}>
-                      {cert.icon}
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg group-hover:text-primary transition-colors">
-                        {cert.title}
-                      </CardTitle>
-                      <Badge variant="outline" className="mt-1">
-                        {cert.type}
-                      </Badge>
-                    </div>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Certificate Preview */}
-                <div className="relative group/preview">
-                  <img
-                    src={cert.image}
-                    alt={`${cert.title} Certificate`}
-                    className="w-full h-32 object-cover rounded-lg border border-border/50 transition-all duration-300 group-hover/preview:shadow-lg"
-                  />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/preview:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center gap-2">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button size="sm" variant="secondary">
-                          <Eye className="h-4 w-4 mr-1" />
-                          View
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
-                        <div className="space-y-4">
-                          <div className="flex items-center justify-between">
-                            <h3 className="text-lg font-semibold">{cert.title}</h3>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleDownload(cert.pdfUrl, cert.title)}
-                            >
-                              <Download className="h-4 w-4 mr-1" />
-                              Download
-                            </Button>
+        <Carousel
+          opts={{ align: "start", loop: true }}
+          plugins={[
+            AutoScroll({
+              speed: 1,
+              stopOnInteraction: false,
+              stopOnMouseEnter: true,
+            }),
+          ]}
+          className="w-full"
+        >
+          <CarouselContent className="-ml-4">
+            {certificates.map((cert, index) => (
+              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                <div className="p-1">
+                  <Card className="card-hover group h-full">
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className={`p-2 rounded-lg bg-${cert.color}/10 group-hover:bg-${cert.color}/20 transition-colors`}>
+                            {cert.icon}
                           </div>
-                          <img
-                            src={cert.image}
-                            alt={`${cert.title} Certificate`}
-                            className="w-full rounded-lg shadow-lg"
-                          />
+                          <div>
+                            <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                              {cert.title}
+                            </CardTitle>
+                            <Badge variant="outline" className="mt-1">
+                              {cert.type}
+                            </Badge>
+                          </div>
                         </div>
-                      </DialogContent>
-                    </Dialog>
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      onClick={() => handleDownload(cert.pdfUrl, cert.title)}
-                    >
-                      <Download className="h-4 w-4 mr-1" />
-                      PDF
-                    </Button>
-                  </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="relative group/preview">
+                        <img
+                          src={cert.image}
+                          alt={`${cert.title} Certificate`}
+                          className="w-full h-32 object-cover rounded-lg border border-border/50 transition-all duration-300 group-hover/preview:shadow-lg"
+                        />
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/preview:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center gap-2">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button size="sm" variant="secondary">
+                                <Eye className="h-4 w-4 mr-1" />
+                                View
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
+                              <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                  <h3 className="text-lg font-semibold">{cert.title}</h3>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleDownload(cert.pdfUrl, cert.title)}
+                                  >
+                                    <Download className="h-4 w-4 mr-1" />
+                                    Download
+                                  </Button>
+                                </div>
+                                <img
+                                  src={cert.image}
+                                  alt={`${cert.title} Certificate`}
+                                  className="w-full rounded-lg shadow-lg"
+                                />
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            onClick={() => handleDownload(cert.pdfUrl, cert.title)}
+                          >
+                            <Download className="h-4 w-4 mr-1" />
+                            PDF
+                          </Button>
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground text-sm">{cert.description}</p>
+                      <div className="space-y-2 pt-2">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Building className="h-3 w-3" />
+                          <span>{cert.organization}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Calendar className="h-3 w-3" />
+                          <span>{cert.date}</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
                 </div>
-                
-                <p className="text-muted-foreground">{cert.description}</p>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Building className="h-4 w-4" />
-                    <span>{cert.organization}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
-                    <span>{cert.date}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Users className="h-4 w-4" />
-                    <span>{cert.duration}</span>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium">Skills Acquired:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {cert.skills.map((skill) => (
-                      <Badge key={skill} variant="secondary" className="tech-badge text-xs">
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
 
         <div className="mt-16 text-center">
           <Card className="max-w-2xl mx-auto bg-card-gradient">
