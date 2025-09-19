@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ExternalLink, Github } from "lucide-react"
-import { StackedCards, StackedCard } from "./stacked-cards";
+import { motion } from "framer-motion"
 
 // Import project images
 import sohanUiUxImage from "@/assets/projects/sohan-uiux.png"
@@ -75,77 +75,79 @@ export function ProjectsSection() {
           </p>
         </div>
 
-        <div className="grid gap-8">
-          {/* All Projects Stacked Cards */}
-          <div className="w-full max-w-4xl mx-auto">
-            <StackedCards>
-              {projects.map((project, index) => (
-                <StackedCard key={index}>
-                  <Card className="card-hover overflow-hidden group w-full h-full">
-                    <div className="md:flex h-full">
-                      <div className="md:w-1/2 relative overflow-hidden">
-                        <img
-                          src={project.image}
-                          alt={project.title}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                          <div className="flex gap-4">
-                            <Button size="sm" asChild>
-                              <a
-                                href={project.liveUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <ExternalLink className="mr-2 h-4 w-4" />
-                                Live Demo
-                              </a>
-                            </Button>
-                            <Button variant="outline" size="sm" asChild>
-                              <a
-                                href={project.githubUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <Github className="mr-2 h-4 w-4" />
-                                Code
-                              </a>
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="md:w-1/2 flex flex-col justify-center">
-                        <CardHeader>
-                          <CardTitle className="flex items-center justify-between">
-                            {project.title}
-                            {project.featured && (
-                              <Badge variant="secondary">Featured</Badge>
-                            )}
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground mb-4">
-                            {project.description}
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            {project.tags.map((tag) => (
-                              <Badge
-                                key={tag}
-                                variant="outline"
-                                className="tech-badge"
-                              >
-                                {tag}
-                              </Badge>
-                            ))}
-                          </div>
-                        </CardContent>
+        <div className="flex flex-col items-center gap-8">
+          {projects.map((project, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="w-full max-w-4xl"
+            >
+              <Card className="card-hover overflow-hidden group w-full">
+                <div className="md:flex h-full">
+                  <div className="md:w-1/2 relative overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="flex gap-4">
+                        <Button size="sm" asChild>
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ExternalLink className="mr-2 h-4 w-4" />
+                            Live Demo
+                          </a>
+                        </Button>
+                        <Button variant="outline" size="sm" asChild>
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Github className="mr-2 h-4 w-4" />
+                            Code
+                          </a>
+                        </Button>
                       </div>
                     </div>
-                  </Card>
-                </StackedCard>
-              ))}
-            </StackedCards>
-          </div>
+                  </div>
+                  <div className="md:w-1/2 flex flex-col justify-center p-6">
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-between">
+                        {project.title}
+                        {project.featured && (
+                          <Badge variant="secondary">Featured</Badge>
+                        )}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground mb-4">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.map((tag) => (
+                          <Badge
+                            key={tag}
+                            variant="outline"
+                            className="tech-badge"
+                          >
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </div>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
         </div>
 
         <div className="text-center mt-12">
