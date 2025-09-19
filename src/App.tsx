@@ -6,22 +6,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import { useEffect } from "react";
-import Lenis from "@studio-freight/lenis";
+import { useSmoothScroll } from "./hooks/use-smooth-scroll";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  useEffect(() => {
-    const lenis = new Lenis();
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-  }, []);
+  useSmoothScroll();
 
   return (
     <QueryClientProvider client={queryClient}>

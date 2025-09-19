@@ -118,10 +118,6 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground font-sans;
   }
-
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 /* Custom animations and effects */
