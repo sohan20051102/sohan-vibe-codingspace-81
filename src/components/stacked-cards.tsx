@@ -60,7 +60,7 @@ const StackedCardItem: React.FC<StackedCardItemProps> = ({
       (reversedIndex + 0.5) / cardCount,
       (reversedIndex + 1) / cardCount,
     ],
-    [0.8, 1, 0.8]
+    [0.8, 1, 0]
   );
   const zIndex = useTransform(
     scrollYProgress,
