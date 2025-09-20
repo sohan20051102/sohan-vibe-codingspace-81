@@ -38,8 +38,8 @@ export function AboutSection() {
             About <span className="hero-text-gradient">Me</span>
           </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
-            I'm a passionate full stack developer who loves creating beautiful, functional web experiences.
-            My journey spans from front-end and back-end development to AI-assisted coding and DevOps practices.
+            I'm a passionate front-end developer who loves creating beautiful, functional web experiences. 
+            My journey spans from traditional web development to AI-assisted coding and DevOps practices.
           </p>
         </div>
 
@@ -49,16 +49,16 @@ export function AboutSection() {
             <div className="space-y-4 text-muted-foreground">
               <p>
                 Started as a curious developer exploring the world of web technologies. 
-                My passion for creating robust, scalable applications led me to master
-                modern full stack frameworks and tools.
+                My passion for creating pixel-perfect, responsive designs led me to master 
+                modern frontend frameworks and tools.
               </p>
               <p>
-                I'm fascinated by AI-assisted development, experimenting with
+                Recently, I've been fascinated by AI-driven development, experimenting with 
                 tools that enhance coding productivity and exploring how AI can revolutionize 
-                the development process. I call this 'Vibe Coding'.
+                the development process.
               </p>
               <p>
-                I am also expanding into DevOps to understand the full software lifecycle - from
+                Now expanding into DevOps to understand the full software lifecycle - from 
                 development to deployment and maintenance. My goal is to become a well-rounded 
                 developer who can bridge the gap between development and operations.
               </p>
