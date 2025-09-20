@@ -69,15 +69,6 @@ const certificates = [
   }
 ]
 
-const handleDownload = (pdfUrl: string, title: string) => {
-  const link = document.createElement('a')
-  link.href = pdfUrl
-  link.download = `${title.replace(/\s+/g, '_')}.pdf`
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
-
 const CertificateCard = ({ cert, handleDownload }: { cert: typeof certificates[0]; handleDownload: (pdfUrl: string, title: string) => void }) => (
   <Card className="card-hover group h-full">
     <CardHeader>
@@ -160,6 +151,15 @@ const CertificateCard = ({ cert, handleDownload }: { cert: typeof certificates[0
 
 export function CertificatesSection() {
   const isMobile = useIsMobile()
+
+  const handleDownload = (pdfUrl: string, title: string) => {
+    const link = document.createElement('a')
+    link.href = pdfUrl
+    link.download = `${title.replace(/\s+/g, '_')}.pdf`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   return (
     <section id="certificates" className="py-12 md:py-20 bg-muted/30">
