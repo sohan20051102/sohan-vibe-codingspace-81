@@ -53,17 +53,6 @@ const StackedCardItem: React.FC<StackedCardItemProps> = ({
     [index / cardCount, (index + 0.5) / cardCount, (index + 1) / cardCount],
     [0.8, 1, 0.8]
   );
-  const opacity = useTransform(
-    scrollYProgress,
-    [
-      index / cardCount,
-      (index + 0.2) / cardCount,
-      (index + 0.8) / cardCount,
-      (index + 1) / cardCount,
-    ],
-    [0.8, 1, 1, 0.8]
-  );
-
   return (
     <motion.div
       key={index}
@@ -72,8 +61,7 @@ const StackedCardItem: React.FC<StackedCardItemProps> = ({
         transformOrigin: "center",
         y,
         scale,
-        opacity,
-        zIndex: cardCount - index,
+        zIndex: index,
       }}
     >
       {React.cloneElement(card, {
