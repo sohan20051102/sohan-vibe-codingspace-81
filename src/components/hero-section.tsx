@@ -11,8 +11,8 @@ export function HeroSection() {
   }
 
   const handleDownloadCV = () => {
-    // Add your CV download logic here
-    console.log("Download CV clicked")
+    const cvUrl = "https://drive.google.com/uc?export=download&id=1Jt4kf_kJp-LLeDxTW3yvTFSiXYldyC-s";
+    window.open(cvUrl, "_blank");
   }
 
   return (

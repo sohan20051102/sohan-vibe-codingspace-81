@@ -69,16 +69,7 @@ const certificates = [
   }
 ]
 
-const handleDownload = (pdfUrl: string, title: string) => {
-  const link = document.createElement('a')
-  link.href = pdfUrl
-  link.download = `${title.replace(/\s+/g, '_')}.pdf`
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
-
-const CertificateCard = ({ cert }: { cert: typeof certificates[0] }) => (
+const CertificateCard = ({ cert, handleDownload }: { cert: typeof certificates[0]; handleDownload: (pdfUrl: string, title: string) => void }) => (
   <Card className="card-hover group h-full">
     <CardHeader>
       <div className="flex items-start justify-between">
@@ -161,6 +152,15 @@ const CertificateCard = ({ cert }: { cert: typeof certificates[0] }) => (
 export function CertificatesSection() {
   const isMobile = useIsMobile()
 
+  const handleDownload = (pdfUrl: string, title: string) => {
+    const link = document.createElement('a')
+    link.href = pdfUrl
+    link.download = `${title.replace(/\s+/g, '_')}.pdf`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <section id="certificates" className="py-12 md:py-20 bg-muted/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -177,7 +177,7 @@ export function CertificatesSection() {
         {isMobile ? (
           <div className="grid gap-8">
             {certificates.map((cert, index) => (
-              <CertificateCard key={index} cert={cert} />
+              <CertificateCard key={index} cert={cert} handleDownload={handleDownload} />
             ))}
           </div>
         ) : (
@@ -196,7 +196,7 @@ export function CertificatesSection() {
               {certificates.map((cert, index) => (
                 <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
                   <div className="p-1">
-                    <CertificateCard cert={cert} />
+                    <CertificateCard cert={cert} handleDownload={handleDownload} />
                   </div>
                 </CarouselItem>
               ))}
