@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import React, { useRef } from "react";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +27,59 @@ interface StackedCardsContainerProps extends React.HTMLAttributes<HTMLDivElement
   cardHeight?: number;
 }
 
+interface StackedCardItemProps {
+  index: number;
+  card: React.ReactElement<CardProps>;
+  cardCount: number;
+  scrollYProgress: MotionValue<number>;
+  cardHeight: number;
+}
+
+const StackedCardItem: React.FC<StackedCardItemProps> = ({
+  index,
+  card,
+  cardCount,
+  scrollYProgress,
+  cardHeight,
+}) => {
+  const y = useTransform(
+    scrollYProgress,
+    [index / cardCount, (index + 0.5) / cardCount, (index + 1) / cardCount],
+    ["50%", "0%", "-50%"]
+  );
+  const scale = useTransform(
+    scrollYProgress,
+    [index / cardCount, (index + 0.5) / cardCount, (index + 1) / cardCount],
+    [0.8, 1, 0.8]
+  );
+  const opacity = useTransform(
+    scrollYProgress,
+    [index / cardCount, (index + 0.5) / cardCount, (index + 1) / cardCount],
+    [0.5, 1, 0.5]
+  );
+
+  return (
+    <motion.div
+      key={index}
+      className="absolute w-full"
+      style={{
+        transformOrigin: "center",
+        y,
+        scale,
+        opacity,
+        zIndex: cardCount - index,
+      }}
+    >
+      {React.cloneElement(card, {
+        style: {
+          height: `${cardHeight}px`,
+          ...card.props.style,
+        },
+      })}
+    </motion.div>
+  );
+};
+
 export const StackedCards: React.FC<StackedCardsContainerProps> = ({
   children,
   className,
@@ -50,43 +103,16 @@ export const StackedCards: React.FC<StackedCardsContainerProps> = ({
       {...props}
     >
       <div className="sticky top-1/2 -translate-y-1/2 flex items-center justify-center">
-        {cards.map((card, index) => {
-          const y = useTransform(
-            scrollYProgress,
-            [index / cardCount, (index + 0.5) / cardCount, (index + 1) / cardCount],
-            ["50%", "0%", "-50%"]
-          );
-          const opacity = useTransform(
-            scrollYProgress,
-            [
-              index / cardCount,
-              (index + 0.2) / cardCount,
-              (index + 0.8) / cardCount,
-              (index + 1) / cardCount,
-            ],
-            [0, 1, 1, 0]
-          );
-
-          return (
-            <motion.div
-              key={index}
-              className="absolute w-full"
-              style={{
-                transformOrigin: "center",
-                y,
-                opacity,
-                zIndex: cardCount - index,
-              }}
-            >
-              {React.cloneElement(card, {
-                style: {
-                  height: `${cardHeight}px`,
-                  ...card.props.style,
-                },
-              })}
-            </motion.div>
-          );
-        })}
+        {cards.map((card, index) => (
+          <StackedCardItem
+            key={index}
+            index={index}
+            card={card}
+            cardCount={cardCount}
+            scrollYProgress={scrollYProgress}
+            cardHeight={cardHeight}
+          />
+        ))}
       </div>
     </div>
   );
