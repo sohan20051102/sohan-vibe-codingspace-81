@@ -62,6 +62,14 @@ const StackedCardItem: React.FC<StackedCardItemProps> = ({
     ],
     [0.8, 1, 0.8]
   );
+  const zIndex = useTransform(
+    scrollYProgress,
+    [
+      (reversedIndex + 0.5) / cardCount,
+      (reversedIndex + 0.5) / cardCount + 0.001,
+    ],
+    [index, -1]
+  );
   return (
     <motion.div
       key={index}
@@ -70,7 +78,7 @@ const StackedCardItem: React.FC<StackedCardItemProps> = ({
         transformOrigin: "center",
         y,
         scale,
-        zIndex: index,
+        zIndex,
       }}
     >
       {React.cloneElement(card, {
