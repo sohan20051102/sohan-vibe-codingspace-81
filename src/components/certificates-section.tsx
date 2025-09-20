@@ -1,5 +1,6 @@
 import * as React from "react"
 import AutoScroll from "embla-carousel-auto-scroll"
+import { useIsMobile } from "@/hooks/use-mobile"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
@@ -69,6 +70,8 @@ const certificates = [
 ]
 
 export function CertificatesSection() {
+  const isMobile = useIsMobile()
+
   const handleDownload = (pdfUrl: string, title: string) => {
     const link = document.createElement('a')
     link.href = pdfUrl
@@ -96,7 +99,7 @@ export function CertificatesSection() {
           plugins={[
             AutoScroll({
               speed: 1,
-              stopOnInteraction: false,
+              stopOnInteraction: !isMobile,
               stopOnMouseEnter: true,
             }),
           ]}
@@ -104,7 +107,7 @@ export function CertificatesSection() {
         >
           <CarouselContent className="-ml-4">
             {certificates.map((cert, index) => (
-              <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={index} className="pl-4 basis-1/3 md:basis-1/2 lg:basis-1/3">
                 <div className="p-1">
                   <Card className="card-hover group h-full">
                     <CardHeader>
