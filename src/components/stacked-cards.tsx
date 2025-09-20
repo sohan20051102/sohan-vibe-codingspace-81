@@ -104,7 +104,7 @@ export const StackedCards: React.FC<StackedCardsContainerProps> = ({
     <div
       ref={containerRef}
       className={cn("relative", className)}
-      style={{ height: `${cardCount * 100}vh` }}
+      style={{ height: `${cardCount * 75}vh` }}
       {...props}
     >
       <div className="sticky top-1/2 -translate-y-1/2 flex items-center justify-center">
