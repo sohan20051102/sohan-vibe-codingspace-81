@@ -78,7 +78,7 @@ const handleDownload = (pdfUrl: string, title: string) => {
   document.body.removeChild(link)
 }
 
-const CertificateCard = ({ cert }: { cert: typeof certificates[0] }) => (
+const CertificateCard = ({ cert, handleDownload }: { cert: typeof certificates[0]; handleDownload: (pdfUrl: string, title: string) => void }) => (
   <Card className="card-hover group h-full">
     <CardHeader>
       <div className="flex items-start justify-between">
@@ -177,7 +177,7 @@ export function CertificatesSection() {
         {isMobile ? (
           <div className="grid gap-8">
             {certificates.map((cert, index) => (
-              <CertificateCard key={index} cert={cert} />
+              <CertificateCard key={index} cert={cert} handleDownload={handleDownload} />
             ))}
           </div>
         ) : (
@@ -196,7 +196,7 @@ export function CertificatesSection() {
               {certificates.map((cert, index) => (
                 <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
                   <div className="p-1">
-                    <CertificateCard cert={cert} />
+                    <CertificateCard cert={cert} handleDownload={handleDownload} />
                   </div>
                 </CarouselItem>
               ))}

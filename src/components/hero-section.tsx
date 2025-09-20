@@ -32,7 +32,7 @@ export function HeroSection() {
                 <span className="hero-text-gradient">Sohan</span>
               </h1>
               <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-foreground/80">
-                Full Stack Developer | Aspiring DevOps Engineer | AI-Assisted Coding (Vibe Coding)
+                Front-End Developer | AI-Driven Coder | Aspiring DevOps Engineer
               </h2>
             </div>
 
