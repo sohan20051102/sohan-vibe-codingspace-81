@@ -54,8 +54,13 @@ const StackedCardItem: React.FC<StackedCardItemProps> = ({
   );
   const opacity = useTransform(
     scrollYProgress,
-    [index / cardCount, (index + 0.5) / cardCount, (index + 1) / cardCount],
-    [0.5, 1, 0.5]
+    [
+      index / cardCount,
+      (index + 0.2) / cardCount,
+      (index + 0.8) / cardCount,
+      (index + 1) / cardCount,
+    ],
+    [0.8, 1, 1, 0.8]
   );
 
   return (
