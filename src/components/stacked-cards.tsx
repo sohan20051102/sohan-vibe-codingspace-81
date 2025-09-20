@@ -75,7 +75,7 @@ const StackedCardItem: React.FC<StackedCardItemProps> = ({
       key={index}
       className="absolute w-full"
       style={{
-        transformOrigin: "center",
+        transformOrigin: "top center",
         y,
         scale,
         zIndex,
