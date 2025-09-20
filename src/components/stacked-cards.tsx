@@ -43,14 +43,23 @@ const StackedCardItem: React.FC<StackedCardItemProps> = ({
   scrollYProgress,
   cardHeight,
 }) => {
+  const reversedIndex = cardCount - 1 - index;
   const y = useTransform(
     scrollYProgress,
-    [index / cardCount, (index + 0.5) / cardCount, (index + 1) / cardCount],
-    ["-50%", "0%", "50%"]
+    [
+      reversedIndex / cardCount,
+      (reversedIndex + 0.5) / cardCount,
+      (reversedIndex + 1) / cardCount,
+    ],
+    ["50%", "0%", "-50%"]
   );
   const scale = useTransform(
     scrollYProgress,
-    [index / cardCount, (index + 0.5) / cardCount, (index + 1) / cardCount],
+    [
+      reversedIndex / cardCount,
+      (reversedIndex + 0.5) / cardCount,
+      (reversedIndex + 1) / cardCount,
+    ],
     [0.8, 1, 0.8]
   );
   return (
