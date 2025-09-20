@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import React, { useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -96,6 +97,7 @@ export const StackedCards: React.FC<StackedCardsContainerProps> = ({
     target: containerRef,
     offset: ["start start", "end end"],
   });
+  const isMobile = useIsMobile();
 
   const cards = React.Children.toArray(children) as React.ReactElement<CardProps>[];
   const cardCount = cards.length;
@@ -104,7 +106,7 @@ export const StackedCards: React.FC<StackedCardsContainerProps> = ({
     <div
       ref={containerRef}
       className={cn("relative", className)}
-      style={{ height: `${cardCount * 75}vh` }}
+      style={{ height: isMobile ? `${cardCount * 60}vh` : `${cardCount * 100}vh` }}
       {...props}
     >
       <div className="sticky top-1/2 -translate-y-1/2 flex items-center justify-center">

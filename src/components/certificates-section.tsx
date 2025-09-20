@@ -107,7 +107,7 @@ export function CertificatesSection() {
         >
           <CarouselContent className="-ml-4">
             {certificates.map((cert, index) => (
-              <CarouselItem key={index} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={index} className="pl-4 basis-1/3 md:basis-1/2 lg:basis-1/3">
                 <div className="p-1">
                   <Card className="card-hover group h-full">
                     <CardHeader>
