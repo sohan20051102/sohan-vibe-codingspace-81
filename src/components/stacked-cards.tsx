@@ -68,7 +68,7 @@ const StackedCardItem: React.FC<StackedCardItemProps> = ({
       (reversedIndex + 0.5) / cardCount,
       (reversedIndex + 0.5) / cardCount + 0.001,
     ],
-    [index, -1]
+    [index, index - cardCount]
   );
   return (
     <motion.div
