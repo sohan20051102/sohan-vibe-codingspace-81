@@ -1,0 +1,63 @@
+name: Deploy to Cloud Run
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_id:
+        description: 'Devyntra deployment id'
+        required: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - uses: actions/checkout@v4
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - uses: 'google-github-actions/setup-gcloud@v2'
+      - name: Build and Deploy with Dockerfile
+        env:
+          PROJECT_ID: devyntra-500e4
+          REGION: us-central1
+          SERVICE: sohan-vibe-codingspace-81
+        run: |
+          set -e
+          gcloud config set project "$PROJECT_ID"
+          # Ensure AR docker auth is configured
+          gcloud auth configure-docker "$REGION-docker.pkg.dev" -q
+          IMAGE="$REGION-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/$SERVICE:${{ github.sha }}"
+          echo "Building $IMAGE"
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+          gcloud run deploy "$SERVICE"             --region="$REGION"             --image="$IMAGE"             --allow-unauthenticated             --port=8080
+      - name: Fetch Service URL
+        id: fetch_url
+        env:
+          REGION: us-central1
+          SERVICE: sohan-vibe-codingspace-81
+        run: |
+          set -e
+          URL=$(gcloud run services describe "$SERVICE" --region="$REGION" --format='value(status.url)')
+          echo "SERVICE_URL=$URL" >> $GITHUB_OUTPUT
+      - name: Post status to Devyntra
+        env:
+          WEBHOOK_URL: ${{ secrets.DEVYNTRA_WEBHOOK_URL }}
+          WEBHOOK_TOKEN: ${{ secrets.DEVYNTRA_WEBHOOK_TOKEN }}
+          DEPLOYMENT_ID: ${{ inputs.deployment_id }}
+          SERVICE_URL: ${{ steps.fetch_url.outputs.SERVICE_URL }}
+        run: |
+          set -e
+          STATUS="success"
+          if [ -z "$SERVICE_URL" ]; then SERVICE_URL=""; fi
+          URL_CLEAN=$(printf '%s' "$WEBHOOK_URL" | tr -d '[:space:]')
+          TOKEN_CLEAN=$(printf '%s' "$WEBHOOK_TOKEN" | tr -d '[:space:]')
+          if [ -n "$URL_CLEAN" ] && [ -n "$TOKEN_CLEAN" ] && [ -n "$DEPLOYMENT_ID" ]; then
+            case "$URL_CLEAN" in http://*|https://*) : ;; *) echo "Invalid webhook URL, skipping callback"; exit 0;; esac
+            DATA=$(printf '{"deploymentId":"%s","status":"%s","deploymentUrl":"%s"}' "$DEPLOYMENT_ID" "$STATUS" "$SERVICE_URL")
+            curl --fail --retry 3 --retry-delay 2 -sS -X POST "$URL_CLEAN"               -H 'Content-Type: application/json'               -H "X-Devyntra-Token: $TOKEN_CLEAN"               --data "$DATA"
+          else
+            echo "Devyntra webhook not configured or missing deployment id; skipping callback"
+          fi
