@@ -1,0 +1,31 @@
+name: Deploy to Cloud Run
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - uses: actions/checkout@v4
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+      - uses: 'google-github-actions/setup-gcloud@v2'
+      - name: Build and Deploy with Dockerfile
+        env:
+          PROJECT_ID: devyntra-500e4
+          REGION: us-central1
+          SERVICE: sohan-vibe-codingspace-81
+        run: |
+          set -e
+          gcloud config set project "$PROJECT_ID"
+          # Ensure AR docker auth is configured
+          gcloud auth configure-docker "$REGION-docker.pkg.dev" -q
+          IMAGE="$REGION-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/$SERVICE:${{ github.sha }}"
+          echo "Building $IMAGE"
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+          gcloud run deploy "$SERVICE"             --region="$REGION"             --image="$IMAGE"             --allow-unauthenticated             --port=8080
