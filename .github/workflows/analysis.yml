@@ -1,0 +1,23 @@
+name: Analyze Codebase
+on:
+  workflow_dispatch:
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: |
+          if [ -f package.json ]; then
+            npm ci || npm install
+            npx eslint . || true
+            npx tsc -v >/dev/null 2>&1 && npx tsc --noEmit || true
+          elif [ -f requirements.txt ]; then
+            python -m pip install -r requirements.txt
+            pip install pylint || true
+            pylint $(git ls-files '*.py') || true
+          elif [ -f go.mod ]; then
+            go vet ./... || true
+          fi
